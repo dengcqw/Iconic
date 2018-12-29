@@ -32,16 +32,16 @@ function getFileTitle()
 
     # Removes the file extension
     name="${FILE_NAME%.*}"
-    
+
     # Splits and removes all substrings with the separator characters in the file name
     # like whitespaces, dash, underscore, etc.
     title="${name%%[" -_–"]*}"
-    
+
     # Specially, we want to strip the string starting from the word "Icon", and append it manually,
     # so a string like 'MaterialIconsFont' would look like 'MaterialIcon'.
     title="${title%%"icon"*}"
     title="${title%%"Icon"*}Icon"
-    
+
     # Upper case the first character
     title="$(tr '[:lower:]' '[:upper:]' <<< ${title:0:1})${title:1}"
 
@@ -68,7 +68,7 @@ function iconize()
     # Moves and renames the JSON output to the HTML directory
     mv ${OUTPUT_PATH}/${OUTPUT_NAME}.json ${CATALOG_PATH}/data.json
     echo "Iconizer: Moving catalog's json to '${CATALOG_PATH}/data.json'"
-    
+
 	# Copies the font file to the HTML directory
 	cp -r ${FONT_PATH} ${CATALOG_PATH}/${FONT_NAME}
     echo "Iconizer: Moving catalog's font to '${CATALOG_PATH}/${FONT_NAME}'"
@@ -100,7 +100,7 @@ if [ -z ${INPUT_PATH} ]; then
     echo "Iconizer: No font file was found at path '${INPUT_PATH}'. Using FontAwesome as default font."
 
     # Uses FontAwesome as default
-    init 'Fonts/FontAwesome/FontAwesome.otf'
+    init 'Fonts/FontAwesome-4.6.3/FontAwesome.ttf'
 else
     init ${INPUT_PATH}
 fi

@@ -3,13 +3,13 @@
 //  Iconic
 //
 //  Created by Ignacio Romero on 6/9/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN. All rights reserved.
 //
 
 import XCTest
-@testable import Iconic
+import Iconic
 
-enum TestIcon: Int {
+enum TestIcon : Int {
     case icon1
     case icon2
     case icon3
@@ -21,18 +21,18 @@ extension TestIcon : IconDrawable {
     
     static var count: Int { return 5 }
     
-    static var familyName: String {
+    static var familyName:String {
         return "FontAwesome"
     }
     
     init(named iconName: String) {
-        switch iconName.lowercased() {
+        switch iconName.lowercaseString {
         case "icon1": self = .icon1
         case "icon2": self = .icon2
         case "icon3": self = .icon3
         case "icon4": self = .icon4
         case "icon5": self = .icon5
-        default: self = .icon1
+        default: self = TestIcon(rawValue: 0)!
         }
     }
     
@@ -46,7 +46,7 @@ extension TestIcon : IconDrawable {
         }
     }
     
-    var unicode: String {
+    var unicode:String {
         switch self {
         case .icon1: return "\u{F129}"
         case .icon2: return "\u{F12D}"
@@ -95,7 +95,7 @@ class IconDrawableTests: XCTestCase {
     
     func testUnicodeConstructor() {
         
-        measure() {
+        measureBlock() {
             let str = TestIcon.icon1.unicode
         
             XCTAssertNotNil(str)
@@ -105,7 +105,7 @@ class IconDrawableTests: XCTestCase {
     
     func testFontConstructor() {
         
-        measure() {
+        measureBlock() {
             let font = TestIcon.font(ofSize: 20)
         
             XCTAssertNotNil(font)
@@ -115,7 +115,7 @@ class IconDrawableTests: XCTestCase {
     
     func testFontSizeZero() {
 
-        measure() {
+        measureBlock() {
             // Fonts with zero point size, default to 10, to avoid returning a system font.
             let font = TestIcon.font(ofSize: 0)
         
@@ -127,13 +127,13 @@ class IconDrawableTests: XCTestCase {
     
     func testAttributedStringConstructor() {
         
-        measure() {
+        measureBlock() {
             let string = TestIcon.icon1.attributedString(ofSize: 20, color: nil)
-            let range = NSRange(location: 0, length: string.length)
+            let range = NSMakeRange(0, string.length)
         
             XCTAssertNotNil(string)
         
-            string.enumerateAttribute(NSFontAttributeName, in: range, options: NSAttributedString.EnumerationOptions(rawValue: 0)) { (value, range, stop) -> Void in
+            string.enumerateAttribute(NSFontAttributeName, inRange: range, options: NSAttributedStringEnumerationOptions(rawValue: 0)) { (value, range, stop) -> Void in
                 if let font = value as? UIFont {
                     XCTAssertEqual(font.familyName, TestIcon.familyName)
                 }
@@ -143,7 +143,7 @@ class IconDrawableTests: XCTestCase {
     
     func testImageConstructor() {
 
-        measure() {
+        measureBlock() {
             let size = CGSize(width: 20, height: 20)
         
             let image = TestIcon.icon1.image(ofSize: size, color: nil)
@@ -155,8 +155,8 @@ class IconDrawableTests: XCTestCase {
 
     func testImageInsetsConstructor() {
         
-        measure() {
-            let insets = UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5)
+        measureBlock() {
+            let insets = UIEdgeInsetsMake(-5, -5, -5, -5)
             let size = CGSize(width: 20, height: 20)
 
             let image = TestIcon.icon1.image(ofSize: size, color: nil, edgeInsets: insets)

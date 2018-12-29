@@ -3,7 +3,7 @@
 //  Example
 //
 //  Created by Ignacio Romero on 5/22/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN Labs All rights reserved.
 //
 
 import UIKit
@@ -11,12 +11,11 @@ import Iconic
 
 class SecondViewController: UIViewController {
     
-    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var iconImageView: IconImageView!
     @IBOutlet weak var iconWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var iconHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scaleSlider: UISlider!
-    @IBOutlet weak var colorSlider: UISlider!
-
+    @IBOutlet weak var slider: UISlider!
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
@@ -24,28 +23,27 @@ class SecondViewController: UIViewController {
     
     func commonInit() -> Void {
         
-        let tabItem = UITabBarItem(withIcon: .pictureIcon, size: CGSize(width: 20, height: 20), title: "As Image")
-        
-        self.title = tabItem.title
-        self.tabBarItem = tabItem
-        
-        let buttonItem = UIBarButtonItem(withIcon: .cogIcon, size: CGSize(width: 24, height: 24), target: self, action: #selector(didTapRightItem))
-        self.navigationItem.rightBarButtonItem = buttonItem
+//        let tabItem = UITabBarItem(withIcon: .Picture, size: CGSize(width: 20, height: 20), title: "As Image")
+//
+//        self.title = tabItem.title;
+//        self.tabBarItem = tabItem;
+//
+//        let buttonItem = UIBarButtonItem(withIcon: .Cog, size: CGSize(width: 24, height: 24), target: self, action: #selector(didTapRightItem))
+//        self.navigationItem.rightBarButtonItem = buttonItem
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateTitleView()
-        
-        updateIconScale(150)
-        updateIconColor(150)
+        updateIcon(scale: 200)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
+    @objc
     func didTapRightItem() {
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -54,28 +52,17 @@ class SecondViewController: UIViewController {
     @IBAction func didChangeScale(_ sender: UISlider) {
         print("did change scale to '\(sender.value)'")
         
-        if sender == scaleSlider {
-            updateIconScale(sender.value)
-        }
-        if sender == colorSlider {
-            updateIconColor(sender.value)
-        }
+        updateIcon(scale: sender.value)
     }
     
-    func updateIconScale(_ scale: Float) {
+    func updateIcon(scale: Float) {
         
         let size = CGFloat(ceil(scale))
         
+        // TODO: Need to figure out a better way to update both axis with 1 single constraint.
+        // Maybe with aspect ratio 1:1 ?
         iconWidthConstraint.constant = size
         iconHeightConstraint.constant = size
-    }
-    
-    func updateIconColor(_ scale: Float) {
-        
-        let hue = CGFloat(ceil(scale))
-        let color = UIColor(hue: hue/255, saturation: 0.9, brightness: 0.9, alpha: 1.0)
-        
-        iconImageView.tintColor = color
     }
 }
 
@@ -85,11 +72,12 @@ class StepSlider: UISlider {
         
         super.init(coder: aDecoder)
         
-        let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(StepSlider.didTapSlider(_:)))
+        let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapSlider))
         self.addGestureRecognizer(tapGesture)
     }
     
-    func didTapSlider(_ gesture: UIGestureRecognizer) {
+    @objc
+    func didTapSlider(gesture: UIGestureRecognizer) {
         
         let location = gesture.location(in: gesture.view)
         
@@ -101,3 +89,4 @@ class StepSlider: UISlider {
         self.sendActions(for: .valueChanged)
     }
 }
+

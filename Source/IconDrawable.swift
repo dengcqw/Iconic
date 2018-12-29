@@ -3,16 +3,16 @@
 //  https://github.com/dzenbot/Iconic
 //
 //  Created by Ignacio Romero on 5/22/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN Labs All rights reserved.
 //
 
 import UIKit
 import CoreText
 
 /** A wrapper class for Objective-C compatibility. */
-public final class Iconic: NSObject { }
+public class Iconic: NSObject { }
 
-/** The IconDrawable protocol defines the complete interface of an Iconic icon's capabilities. */
+/** */
 public protocol IconDrawable {
     
     /** The icon font's family name. */
@@ -26,6 +26,7 @@ public protocol IconDrawable {
     
     /** The icon's unicode. */
     var unicode: String { get }
+    
     
     /**
      Creates a new instance with the specified icon name.
@@ -61,7 +62,7 @@ public protocol IconDrawable {
     func image(ofSize size: CGSize, color: UIColor?) -> UIImage
     
     /**
-     Returns the icon as an image with the given size, color and padding.
+     Returns the icon as an image with the given size and color.
      
      - parameter size: The size of the image, in points.
      - parameter color: The tint color of the image.
@@ -88,16 +89,17 @@ public protocol IconDrawable {
     static func unregister()
 }
 
+
 /** This extension adds the required default implementation for Iconic to work. */
 extension IconDrawable {
     
     public func attributedString(ofSize pointSize: CGFloat, color: UIColor?) -> NSAttributedString {
         
         let font = Self.font(ofSize: pointSize)
-        var attributes = [NSFontAttributeName : font] as [String : AnyObject]
+        var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font : font]
         
         if let color = color {
-            attributes[NSForegroundColorAttributeName] = color
+            attributes[NSAttributedString.Key.foregroundColor] = color
         }
         
         return NSAttributedString(string: unicode, attributes: attributes)
@@ -108,12 +110,10 @@ extension IconDrawable {
         let aString = attributedString(ofSize: pointSize, color: color)
         let mString = NSMutableAttributedString(attributedString: aString)
         
-        let range = NSRange(location: 0, length: mString.length)
-
-        mString.addAttribute(NSBaselineOffsetAttributeName, value: edgeInsets.bottom-edgeInsets.top, range: range)
+        mString.addAttribute(NSAttributedString.Key.baselineOffset, value: edgeInsets.bottom-edgeInsets.top, range: NSMakeRange(0, mString.length))
         
-        let leftSpace = NSAttributedString(string: " ", attributes: [NSKernAttributeName: edgeInsets.left])
-        let rightSpace = NSAttributedString(string: " ", attributes: [NSKernAttributeName: edgeInsets.right])
+        let leftSpace = NSAttributedString(string: " ", attributes: [NSAttributedString.Key.kern: edgeInsets.left])
+        let rightSpace = NSAttributedString(string: " ", attributes: [NSAttributedString.Key.kern: edgeInsets.right])
         
         mString.insert(rightSpace, at: mString.length)
         mString.insert(leftSpace, at: 0)
@@ -123,7 +123,7 @@ extension IconDrawable {
     
     public func image(ofSize size: CGSize, color: UIColor?) -> UIImage {
         
-        return image(ofSize: size, color: color, edgeInsets: .zero)
+        return image(ofSize: size, color: color, edgeInsets: UIEdgeInsets.zero)
     }
     
     public func image(ofSize size: CGSize, color: UIColor?, edgeInsets: UIEdgeInsets) -> UIImage {
@@ -140,9 +140,7 @@ extension IconDrawable {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         
-        let range = NSRange(location: 0, length: mString.length)
-        
-        mString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
+        mString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, mString.length))
         
         // Renders the attributed string as image using Text Kit
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
@@ -182,7 +180,7 @@ extension IconDrawable {
         
         // Registers font dynamically
         if CTFontManagerRegisterFontsForURL(url, .none, &error) == false || error != nil {
-            assertionFailure("Failed registering font with the postscript name '\(fontName)' at path '\(url)' with error: \(error).")
+            assertionFailure("Failed registering font with the postscript name '\(fontName)' at path '\(url)' with error: \(String(describing: error)).")
         }
         
         print("Font '\(familyName)' registered successfully!")
@@ -199,18 +197,18 @@ extension IconDrawable {
         var error: Unmanaged<CFError>? = nil
         
         if CTFontManagerUnregisterFontsForURL(url, .none, &error) == false || error != nil {
-            assertionFailure("Failed unregistering font with name '\(familyName)' at path '\(url)' with error: \(error).")
+            assertionFailure("Failed unregistering font with name '\(familyName)' at path '\(url)' with error: \(String(describing: error)).")
         }
         
         print("Font '\(familyName)' unregistered successfully!")
     }
     
-    fileprivate static func resourceUrl() -> CFURL {
+    private static func resourceUrl() -> CFURL {
         
         let extensions = ["otf", "ttf"]
         let bundle = Bundle(for: Iconic.self)
         
-        let url = extensions.flatMap { bundle.url(forResource: familyName, withExtension: $0) }.first
+        let url = extensions.compactMap { bundle.url(forResource: familyName, withExtension: $0) }.first
         
         return url as CFURL!
     }

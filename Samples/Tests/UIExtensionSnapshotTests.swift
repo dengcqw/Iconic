@@ -3,23 +3,24 @@
 //  Iconic
 //
 //  Created by Ignacio Romero on 9/10/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN. All rights reserved.
 //
+
+import FBSnapshotTestCase
 
 class UIExtensionSnapshotTests: BaseSnapshotTestCase {
     
-    let defaultSize = CGSize(width: 40, height: 40)
+    let size = CGSize(width: 40, height: 40)
     
     override func setUp() {
         super.setUp()
         
-        // Toggle on for recording a new snapshot. Remember to turn it back off to validate the test.
-        self.recordMode = false
+//        self.recordMode = false
     }
     
     func testUIBarButtonItem() {
         
-        let buttonItem = UIBarButtonItem(withIcon: .spinnerIcon, size: defaultSize, target: nil, action: #selector(tearDown))
+        let buttonItem = UIBarButtonItem(withIcon: .Spinner, size: size, target: nil, action: #selector(tearDown))
         let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         
         let navItem = UINavigationItem()
@@ -32,7 +33,7 @@ class UIExtensionSnapshotTests: BaseSnapshotTestCase {
     
     func testUITabBarItem() {
         
-        let tabItem = UITabBarItem(withIcon: .sunIcon, size: defaultSize, title: "tab")
+        let tabItem = UITabBarItem(withIcon: .Sun, size: size, title: "tab")
         let tabbar = UITabBar(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         
         tabbar.items = [tabItem]
@@ -42,8 +43,8 @@ class UIExtensionSnapshotTests: BaseSnapshotTestCase {
     
     func testUIButton() {
         
-        let button = UIButton(type: .system)
-        button.setIconImage(withIcon: .downloadIcon, size: defaultSize, color: nil, forState: UIControlState())
+        let button = UIButton(type: .System)
+        button.setIconImage(withIcon: .Download, size: size, color: nil, forState: .Normal)
         button.sizeToFit()
         
         self.verifyView(button, withIdentifier: "")

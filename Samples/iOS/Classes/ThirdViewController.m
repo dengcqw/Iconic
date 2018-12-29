@@ -3,13 +3,11 @@
 //  Example
 //
 //  Created by Ignacio Romero on 5/22/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN Labs All rights reserved.
 //
 
 #import "ThirdViewController.h"
 #import "NSAttributedString+IconMapping.h"
-
-#import "iOS-Swift.h"
 
 @import Iconic;
 
@@ -41,10 +39,10 @@
 
 - (void)commonInit
 {
-    self.tabBarItem = [[UITabBarItem alloc] initWithIcon:FontAwesomeIconOlIcon size:CGSizeMake(20.0, 20.0) title:@"As Text"];
+    self.tabBarItem = [[UITabBarItem alloc] initWithIcon:FontAwesomeIconOl size:CGSizeMake(20.0, 20.0) title:@"As Text"];
     self.title = self.tabBarItem.title;
     
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithIcon:FontAwesomeIconCogIcon size:CGSizeMake(24.0, 24.0) target:self action:@selector(didTapRightButtonItem:)];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithIcon:FontAwesomeIconCog size:CGSizeMake(24.0, 24.0) target:self action:@selector(didTapRightButtonItem:)];
     self.navigationItem.rightBarButtonItem = buttonItem;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowKeyboard:) name:UIKeyboardWillShowNotification object:nil];
@@ -54,8 +52,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self updateTitleView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,7 +78,7 @@
 
 - (void)willShowKeyboard:(NSNotification *)note
 {
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithIcon:FontAwesomeIconAngleDownIcon size:CGSizeMake(30.0, 30.0) target:self action:@selector(didTapLeftButtonItem:)];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithIcon:FontAwesomeIconAngleDown size:CGSizeMake(30.0, 30.0) target:self action:@selector(didTapLeftButtonItem:)];
     [self.navigationItem setLeftBarButtonItem:buttonItem animated:YES];
     
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];

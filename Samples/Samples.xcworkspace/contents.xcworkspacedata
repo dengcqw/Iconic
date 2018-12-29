@@ -58,22 +58,6 @@
          <FileRef
             location = "group:../.codecov.yml">
          </FileRef>
-         <FileRef
-            location = "group:Pods/../.swiftlint.yml">
-         </FileRef>
-      </Group>
-      <Group
-         location = "container:"
-         name = "Scripts">
-         <FileRef
-            location = "group:/Users/iromero/Desktop/DZN/OSS/Iconic/Scripts/Install_SwiftLint.sh">
-         </FileRef>
-         <FileRef
-            location = "group:../Scripts/Run_SwiftLint.sh">
-         </FileRef>
-         <FileRef
-            location = "group:../Scripts/WatchSimulator-CoreText-Patch.sh">
-         </FileRef>
       </Group>
    </Group>
    <FileRef

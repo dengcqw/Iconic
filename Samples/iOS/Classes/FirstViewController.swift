@@ -3,7 +3,7 @@
 //  Example
 //
 //  Created by Ignacio Romero on 5/22/16.
-//  Copyright © 2017 DZN. All rights reserved.
+//  Copyright © 2016 DZN Labs All rights reserved.
 //
 
 import UIKit
@@ -11,7 +11,7 @@ import Iconic
 
 class FirstViewController: UITableViewController {
 
-    let cellIconSize = CGSize(width: 22, height: 22)
+    let cellIconSize:CGSize = CGSize(width: 22, height: 22)
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -25,12 +25,12 @@ class FirstViewController: UITableViewController {
     
     func commonInit() -> Void {
         
-        let tabItem = UITabBarItem(withIcon: .bookIcon, size: CGSize(width: 20, height: 20), title: "Catalog")
+        let tabItem = UITabBarItem(withIcon: .Book, size: CGSize(width: 20, height: 20), title: "Catalog")
         
-        self.title = tabItem.title
-        self.tabBarItem = tabItem
+        self.title = tabItem.title;
+        self.tabBarItem = tabItem;
         
-        let buttonItem = UIBarButtonItem(withIcon: .cogIcon, size: CGSize(width: 24, height: 24), target: self, action: #selector(didTapRightItem))
+        let buttonItem = UIBarButtonItem(withIcon: .Cog, size: CGSize(width: 24, height: 24), target: self, action: #selector(didTapRightItem))
         self.navigationItem.rightBarButtonItem = buttonItem
     }
     
@@ -44,6 +44,7 @@ class FirstViewController: UITableViewController {
         super.viewWillAppear(animated)
     }
     
+    @objc
     func didTapRightItem() {
         // Do something
     }
@@ -53,7 +54,7 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             
             if let icon = FontAwesomeIcon(rawValue: indexPath.row) {
@@ -76,7 +77,7 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        let cell = tableView.cellForRow(at: indexPath as IndexPath)
         cell?.setSelected(false, animated: true)
     }
     
@@ -115,16 +116,14 @@ extension UIViewController {
             return
         }
         
-        guard let icon = FontAwesomeIcon(rawValue: self.tabBarItem.tag) else {
-            return
-        }
-        
+        let icon = FontAwesomeIcon(rawValue: self.tabBarItem.tag)!
         let color = self.view.tintColor ?? UIColor.blue
         let titleSize = CGFloat(20)
         let edgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: titleSize/2)
         
-        let attributes = [NSForegroundColorAttributeName: color,
-                          NSFontAttributeName: UIFont.systemFont(ofSize: titleSize)] as [String : AnyObject]
+        
+        let attributes = [NSAttributedString.Key.foregroundColor: color,
+                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: titleSize)] as [NSAttributedString.Key : Any]
         
         let mString = NSMutableAttributedString(string: title, attributes: attributes)
         
