@@ -50,20 +50,20 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return FontAwesomeIcon.count
+        return FontAwesomeIcon.count + Icon.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
-            
-            if let icon = FontAwesomeIcon(rawValue: indexPath.row) {
-                
-                cell.imageView?.image = icon.image(ofSize: cellIconSize, color: tableView.tintColor)
-                cell.imageView?.highlightedImage = icon.image(ofSize: cellIconSize, color: UIColor.white)
-                
-                cell.textLabel?.text = icon.name
-                
+            let icon: IconDrawable? = Icon(rawValue: indexPath.row) ?? FontAwesomeIcon(rawValue: indexPath.row + Icon.count)
+            if let icon = icon {
+//                cell.imageView?.image = icon.image(ofSize: cellIconSize, color: tableView.tintColor)
+//                cell.imageView?.highlightedImage = icon.image(ofSize: cellIconSize, color: UIColor.white)
+//
+                cell.textLabel?.font = UIFont.init(name: type(of: icon).familyName, size: 18)
+                cell.textLabel?.text = icon.unicode + icon.name
+
                 if let unicodedData = icon.unicode.data(using: String.Encoding.nonLossyASCII),
                     let unicodeString = String(data: unicodedData, encoding: String.Encoding.utf8) {
                     cell.detailTextLabel?.text = unicodeString

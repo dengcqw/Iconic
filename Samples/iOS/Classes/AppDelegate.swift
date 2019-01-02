@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Specially when using IB Storyboard, since the layout needs the resources available asap.
         
         FontAwesomeIcon.register()
+        Icon.register()
     }
 
     private func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {

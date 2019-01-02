@@ -27,3 +27,8 @@ DerivedData
 */Catalog/*.otf
 */Catalog/*.json
 */*Icon.swift
+node_modules
+tvgfont/src/font/
+tvgfont/src/icons/
+tvgfont/src/stylesheets/
+tvgfont/tmp

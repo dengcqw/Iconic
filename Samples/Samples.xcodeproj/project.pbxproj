@@ -367,7 +367,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-tvOS/Pods-tvOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Iconic-tvOS9.0/Iconic.framework",
+				"${BUILT_PRODUCTS_DIR}/Iconic-tvOS/Iconic.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -385,7 +385,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Iconic-iOS8.0/Iconic.framework",
+				"${BUILT_PRODUCTS_DIR}/Iconic-iOS/Iconic.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
