@@ -10,8 +10,8 @@
     "grunt-webfont": "^1.7.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo ./node_modules/grunt/bin/grunt generate-icons -f"
+    "start": "sudo ./node_modules/grunt/bin/grunt -f generate-icons",
+    "release": "sudo ./node_modules/grunt/bin/grunt -f release-icons"
   },
   "author": "",
   "license": "ISC"

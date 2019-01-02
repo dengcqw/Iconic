@@ -3,12 +3,21 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     mySketchToolPath: '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool',
+    prjPath: '/Users/dengjinlong/Documents/8-tvguo/2-TVGuoiOSApp/Library/Iconic',
     shell: {
       lsDir: 'ls src/icons',
       exportSketchSvgIcons: {
         command: [
           'rm -rf tmp/src/icons/svg/*',
           '<%= mySketchToolPath %> export slices src/icons.sketch --output=tmp/src/icons/svg --formats=svg'
+        ].join(' ; ')
+      },
+      generateCode: 'cd ..; ./Source/Iconizer.sh ./tvgfont/src/font/tvgicons.ttf; cd -',
+      copyToPrj: {
+        command: [
+          'cp ../Source/IconDrawable.swift <%= prjPath %>',
+          'cp ../Source/IconImageView.swift <%= prjPath %>',
+          'cp ../Source/TvgIcon.swift <%= prjPath %>',
         ].join(' ; ')
       }
     },
@@ -39,5 +48,5 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['shell:lsDir']);
   grunt.registerTask('generate-icons', ['shell:exportSketchSvgIcons', 'webfont:compileIcons']);
-
+  grunt.registerTask('release-icons', ['shell:exportSketchSvgIcons', 'webfont:compileIcons', 'shell:generateCode', 'shell:copyToPrj']);
 };
